@@ -1,0 +1,123 @@
+\documentclass[12pt, a4paper, twoside, openright, headinclude, footinclude, BCOR5mm, cleardoublepage=empty,dottedtoc]{scrbook}       
+
+\input{impostazioni-tesi}     
+
+\begin{document}
+	% evita parole lunghe vadano oltre margini
+	\sloppy
+	
+	% spaziatura uniforme caratteri
+	\frenchspacing
+	
+	% pagine della stessa altezza del testo in quella pagine. No aggiunta spazio verticale
+	\raggedbottom
+	
+	% stile pagina vuoto (no header e no footer)
+	\pagestyle{empty}
+
+	% eliminizione numeri 
+	\pagenumbering{gobble}
+	
+	% inserimento indice
+	\tableofcontents
+
+% ********************************************************************
+% Materiale iniziale
+%******************************************************************
+
+	% nessuna numerazione capitoli, numeri romani per le pagine
+	\frontmatter
+	
+		% richiamo layout personalizzato introduzione
+		\layoutintroduzione
+	
+		% stile pagina vuoto. Inizia nuovo capitolo su pagina destra per documenti doppia facciata. Rimuove header da eventuale pagina bianca lasciata
+		\clearpage{\pagestyle{empty}\cleardoublepage}
+		
+		% stile pagina scrheadings (header e numero in alto)
+		\pagestyle{scrheadings}
+	
+			\input{./Capitoli/00-Introduzione}
+		
+			% stile pagina vuoto. Inizia nuovo capitolo su pagina destra per documenti doppia facciata. Rimuove header da eventuale pagina bianca lasciata
+			\clearpage{\pagestyle{empty}\cleardoublepage}
+
+% ********************************************************************
+% Materiale principale
+%******************************************************************
+	
+	% resetta numerazione pagine, numeri arabi per le pagine
+	\mainmatter 	
+		
+		% scelta layout personalizzato introduzione
+		\layoutaltricapitoli
+
+			% stile pagina vuoto. Inizia nuovo capitolo su pagina destra per documenti doppia facciata. Rimuove header da eventuale pagina bianca lasciata
+			\clearpage{\pagestyle{empty}\cleardoublepage}
+			
+			% imposta numero pagina iniziale (capitoli)
+			\setcounter{page}{3}
+			
+			\input{./Capitoli/01-Computer_forensics}
+
+			% stile pagina vuoto. Inizia nuovo capitolo su pagina destra per documenti doppia facciata. Rimuove header da eventuale pagina bianca lasciata
+			\clearpage{\pagestyle{empty}\cleardoublepage}
+			
+			\input{./Capitoli/02-Browser_caching}
+			
+% ********************************************************************
+% Materiale finale
+%******************************************************************
+
+	% stile pagina vuoto. Inizia nuovo capitolo su pagina destra per documenti doppia facciata. Rimuove header da eventuale pagina bianca lasciata
+	\clearpage{\pagestyle{empty}\cleardoublepage}
+	
+	% riferimento ipertestuale per "Elenco figure"
+	\phantomsection \label{listoffigures}
+	
+	% aggiungere voce "Elenco figure" nell'indice
+	\addcontentsline{toc}{chapter}{Elenco delle figure}
+	
+	% stile pagina vuoto (no header e no footer)
+	\pagestyle{empty}
+	
+	% creazione elenco figure
+	\listoffigures 	
+	
+	% stile pagina vuoto. Inizia nuovo capitolo su pagina destra per documenti doppia facciata. Rimuove header da eventuale pagina bianca lasciata
+	\clearpage{\pagestyle{empty}\cleardoublepage}
+	
+	% riferimento ipertestuale per "Elenco tabelle"
+	\phantomsection \label{listoftables}
+	
+	% aggiungere voce "Elenco tabelle" nell'indice
+	\addcontentsline{toc}{chapter}{Elenco delle tabelle}
+	
+	% stile pagina vuoto (no header e no footer)
+	\pagestyle{empty}
+	
+	% creazione elenco tabelle
+	\listoftables
+	
+	% stile pagina vuoto. Inizia nuovo capitolo su pagina destra per documenti doppia facciata. Rimuove header da eventuale pagina bianca lasciata
+	\clearpage{\pagestyle{empty}\cleardoublepage}
+	
+	% cambiare nome bibliografia
+	\renewcommand{\bibname}{Riferimenti}
+	
+	% riferimento ipertestuale per "Bibliografia"
+	\phantomsection \label{Riferimenti}
+	
+	% aggiungere voce "Bibliografia" nell'indice
+	\addcontentsline{toc}{chapter}{Riferimenti}
+	
+	% Opere contrassegnate da etichette formate a partire da nome autore e anno pubblicazione (bab = lingua del documento)
+	\bibliographystyle{babalpha}
+	
+	% stile pagina vuoto (no header e footer)
+	\pagestyle{empty}
+	
+	% creazione bibliografia e percorso (relativo) file bibliografia 
+	\bibliography{./Riferimenti/Riferimenti}
+
+\end{document}

@@ -1,0 +1,62 @@
+\chapter{Concetti preliminari: browser cache}
+
+In un sistema computazionale una memoria \textbf{cache} indica un'area di memorizzazione nella quale salvare temporaneamente dei dati.
+Utilizzando un sistema con una memoria cache si tende a ridurre il tempo di accesso ad una risorsa in modo da poter incrementare le prestazioni delle applicazioni che ne fanno richiesta. 
+Quest'area viene posta nelle ``vicinanze'' dell'entità richiedente in modo da avere un accesso più rapido alla risorsa rispetto a quello ottenibile dalla sua posizione originale.
+ 
+\section {Browser cache}
+
+In maniera simile ad altre applicazioni, anche i Web Browser utilizzano una propria memoria cache per migliorare il caricamento delle pagine più frequentemente richieste durante la navigazione in rete. \nocite{Elling}
+
+Durante la navigazione sul Web, copie di pagine HTML, fogli di stile, contenuti grafici e multimediali ed altri tipi di file, vengono salvati in cache. Se una successiva richiesta include risorse alle quali si è già avuto accesso, queste vengono prelevate dalla memoria invece di essere richieste nuovamente. Le principali ragioni dell'utilizzo di una Web Cache sono:
+\nocite{Nottingham}
+
+\begin{itemize}
+	
+	\item{Riduzione della latenza: le richieste vengono soddisfatte dalla cache. Non dovendo usufruire della rete, il tempo impiegato per ottenere e visualizzare i risultati è minore}
+	
+	\item{Riduzione del traffico di rete: riutilizzando le risorse precedentemente richieste, si riduce il quantitativo di banda utilizzato dal client}
+	
+	\item{Resilienza: i contenuti vengono forniti dalla cache anche se questi risultano inaccessibili dal sito di origine (ad esempio per manutenzione del sito o guasti alla rete)}
+
+\end{itemize}
+
+\section{Web caching policies}
+
+Ogni cache possiede un insieme di regole per determinare quando caricare un oggetto salvato al suo interno. Alcune di queste regole vengono definite dall'utilizzatore del browser (attraverso le impostazioni dello stesso, ad esempio dimensione e posizione sul disco), altre invece sono impostate nei protocolli HTTP.
+Le principali indicazioni sono:
+
+\begin{itemize}
+	
+	\item{Se un header di un oggetto indica che lo stesso non debba essere tenuto in cache, l'oggetto non verrà salvato. Allo stesso modo se non è presente un validatore molte cache lo identificheranno con \textit{uncacheable}}
+	
+	\item{Se la richiesta è autenticata o identificata come sicura (HTTPS), non verrà salvata in cache}
+	
+	\item{Se un oggetto è presente da molto tempo verrà richiesto al server di origine di confermare che la copia presente in cache sia ancora valida}
+	
+	\item{In caso di problemi di rete o connessione una cache può fornire risposte senza controllare il server di origine} 
+	
+\end{itemize}
+
+Queste indicazioni vengono seguite mediante l'uso di istruzioni. I vari header per il \textit{cache control} indicano ad esempio se l'oggetto debba essere salvato in cache o meno, per quando tempo può essere considerato ``recente'' prima di essere richiesto nuovamente o se sia un oggetto specifico per un particolare utente. Ampia è la gamma di istruzioni e personalizzazioni impostabili. Una loro corretta gestione permette alla cache di lavorare in maniera più efficiente migliorando l'esperienza di navigazione.
+
+\begin{figure}[htpb]
+	\begin{center}
+		\includegraphics[scale=0.35]{http-cache-decision-tree}
+	\end{center}
+	\caption[Esempio di Cache-Control ottimale]{Esempio di Cache-Control ottimale\footnotemark}
+\end{figure}
+\footnotetext{Fonte: \url{https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching}}
+
+La figura mostra un'idea di caching ottimale per una data risorsa. Alla base c'è l'idea di salvare nella cache del client, per il maggior tempo possibile, il più alto numero di risposte ottenute dalla richiesta della risorsa, ottenendo anche dei token di convalida utili a controllare e validare una risorsa prima di doverla, nel caso, scaricare nuovamente.
+
+\section {Browser caching e forensic}
+
+Di particolare importanza, nel corso di una indagine, risulta l'analisi dei browser e delle loro cache. Le informazioni contenute al loro interno possono aiutare a produrre elementi utili in un'attività investigativa. 
+Potenzialmente si è in grado di ricostruire comportamenti ed abitudini di un sospettato, fornendo indizi su una presunta colpevolezza o innocenza, in modo da avere un diverso quadro d'insieme. Non sempre però. Bisogna tener conto dei casi nei quali le strutture della cache non risultino integre o contenenti informazioni rilevanti. Ad esempio in presenza di un utente esperto che provvede a cancellarne i dati contenuti o che ne sposta la locazione, come nel caso in cui la cache è posizionata in un \textit{RAM disk}, il quale viene resettato ad ogni riavvio del sistema con conseguente perdita del proprio contenuto. Anche le varie modalità di ``navigazione anonima'' fornite ormai da tutti i browser, limitano e rendono maggiormente difficile la ricerca. Con questa modalità il browser non raccoglierà informazioni sulla navigazione, come siti visitati, ricerche effettuate o cronologia dei download. Altre informazioni utili e necessarie alla navigazione, come i \textit{cookies} invece possono essere raccolte ed utilizzate durante la sessione venendo poi cancellate alla chiusura del browser.
+
+A questo si aggiunge che la ricerca e l'analisi di queste informazioni sensibili può risultare un'operazione complessa. Basta pensare che un utente può avere diversi browser installati sulla sua macchina, ognuno con le sue differenti impostazioni, influenzate anche dal sistema operativo in uso (es. locazione della cache). Ogni cache poi presenta strutture diverse per la memorizzazione dei dati, rendendo necessari approcci differenti. Questa situazione addirittura può verificarsi anche fra diverse versioni dello stesso browser. Una versione successiva può introdurre nuove metodologie di controllo della cache, facendo diventare non più validi i metodi di analisi precedentemente utilizzati.
+
+
+
+

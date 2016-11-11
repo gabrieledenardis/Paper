@@ -1,0 +1,109 @@
+% ********************************************************************
+% Packages da utilizzare
+%******************************************************* 
+
+	% encoding ad 8 bit per fonts
+	\usepackage[T1]{fontenc}
+
+	% inserimento diretto lettere accentate
+	\usepackage[utf8]{inputenc}
+
+	% cambia il reset del contatore delle note
+	\usepackage{chngcntr}
+
+	% no reset numero del footnote ad ogni capitolo
+	\counterwithout{footnote}{chapter}
+
+	% miglioramenti per inserimento figure e tabelle
+	\usepackage{float}
+	
+	% disegno directory tree
+	\usepackage{dirtree}
+
+	% lingua principale del documento e sillabazione
+	\usepackage[italian]{babel}
+
+	% lingua bibliografia corrispondente a quella del documento
+	\usepackage{babelbib}
+
+	% gestione colori (dvipsnames evita problemi se usato con pdfpages, table per righe colori alternati tabelle)
+	\usepackage[dvipsnames,table]{xcolor}
+
+	% inserimento documenti pdf
+	\usepackage{pdfpages}
+
+	% layout itemize, enumerate e descrizioni
+	\usepackage{enumitem}
+
+	% gestione footnote
+	\usepackage{footnote}
+
+	% supporto esteso per grafica
+	\usepackage{graphicx}
+
+	% inserimento url (hyphens per spezzare url in corrispondenza del trattino)
+	\usepackage[hyphens]{url}
+
+	% abilitazione riferimenti ipertestuali (no bordi intorno link, no voci indice link, numeri pagina indice link)
+	\usepackage[linktocpage]{hyperref}
+
+	% stile classicthesis
+	\usepackage[eulerchapternumbers,beramono,eulermath,pdfspacing]{classicthesis}     
+	          
+	% uso del package arsclassica. Contiene modifiche al pacchetto classicthesis
+	\usepackage{arsclassica}    
+	
+	% gestione dimensione pagina (a4paper = gestione per formato a4)
+	\usepackage[a4paper]{geometry}
+	
+	% altezza del campo del testo
+	%\textheight = 625pt
+	
+	% definizione layout introduzione
+	\newcommand\layoutintroduzione{
+		
+		% cancellazione header e footer predefiniti classicthesis
+		\clearscrheadfoot
+		
+		% header personalizzato introduzione. ohead = lehead,rohead
+		\ohead{\textit{Introduzione}}
+		
+		% numero pagina al centro per tutte le pagine (pari-dispari)
+		\cfoot[\pagemark]{\pagemark}
+	}
+
+	% definizione altri capitoli
+	\newcommand\layoutaltricapitoli{
+
+		% cancellazione header e footer predefiniti classicthesis
+		\clearscrheadfoot
+		
+		% cancellazione header e footer predefiniti classicthesis
+		\clearscrheadfoot
+		
+		% titolo del capitolo (destra-pagine dispari)
+		\rohead{\textsc{\thechapter-\leftmark}}
+		
+		% titolo personalizzato (sinistra-pagine pari)
+		\lehead{\textsc{Browser Forensic: analisi della cache dei principali browser}}
+		
+		% numero pagina al centro per tutte le pagine (pari-dispari)
+		\cfoot[\pagemark]{\pagemark}
+	}               
+
+% ********************************************************************
+% Impostazioni
+%*******************************************************
+
+	% percorso (relativo) cartella immagini
+	\graphicspath {{./Immagini/}}
+
+	% interlinea caratteri
+	\linespread{1.5}
+	
+	% numerazione sezioni fino al livello 3
+	\setcounter{secnumdepth}{3}
+	
+	% numero di sottosezioni nell'indice
+	\setcounter{tocdepth}{3}
+
