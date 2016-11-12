@@ -1,6 +1,6 @@
-\documentclass[12pt, a4paper, twoside, openright, headinclude, footinclude, BCOR5mm, cleardoublepage=empty,dottedtoc]{scrbook}       
+\documentclass[12pt, a4paper, oneside, openright, headinclude, footinclude, BCOR5mm, cleardoublepage=empty,dottedtoc]{scrbook}       
 
-\input{impostazioni-tesi}     
+\input{impostazioni-tesi} 
 
 \begin{document}
 	% evita parole lunghe vadano oltre margini
@@ -64,6 +64,11 @@
 			\clearpage{\pagestyle{empty}\cleardoublepage}
 			
 			\input{./Capitoli/02-Browser_caching}
+			
+			% stile pagina vuoto. Inizia nuovo capitolo su pagina destra per documenti doppia facciata. Rimuove header da eventuale pagina bianca lasciata
+			\clearpage{\pagestyle{empty}\cleardoublepage}
+			
+			\input{./Capitoli/03-La_cache_dei_vari_browser}
 			
 % ********************************************************************
 % Materiale finale

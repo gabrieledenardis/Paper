@@ -42,7 +42,7 @@ Queste indicazioni vengono seguite mediante l'uso di istruzioni. I vari header p
 
 \begin{figure}[htpb]
 	\begin{center}
-		\includegraphics[scale=0.35]{http-cache-decision-tree}
+		\includegraphics[scale=0.35]{http_cache_decision_tree}
 	\end{center}
 	\caption[Esempio di Cache-Control ottimale]{Esempio di Cache-Control ottimale\footnotemark}
 \end{figure}
@@ -55,7 +55,7 @@ La figura mostra un'idea di caching ottimale per una data risorsa. Alla base c'�
 Di particolare importanza, nel corso di una indagine, risulta l'analisi dei browser e delle loro cache. Le informazioni contenute al loro interno possono aiutare a produrre elementi utili in un'attività investigativa. 
 Potenzialmente si è in grado di ricostruire comportamenti ed abitudini di un sospettato, fornendo indizi su una presunta colpevolezza o innocenza, in modo da avere un diverso quadro d'insieme. Non sempre però. Bisogna tener conto dei casi nei quali le strutture della cache non risultino integre o contenenti informazioni rilevanti. Ad esempio in presenza di un utente esperto che provvede a cancellarne i dati contenuti o che ne sposta la locazione, come nel caso in cui la cache è posizionata in un \textit{RAM disk}, il quale viene resettato ad ogni riavvio del sistema con conseguente perdita del proprio contenuto. Anche le varie modalità di ``navigazione anonima'' fornite ormai da tutti i browser, limitano e rendono maggiormente difficile la ricerca. Con questa modalità il browser non raccoglierà informazioni sulla navigazione, come siti visitati, ricerche effettuate o cronologia dei download. Altre informazioni utili e necessarie alla navigazione, come i \textit{cookies} invece possono essere raccolte ed utilizzate durante la sessione venendo poi cancellate alla chiusura del browser.
 
-A questo si aggiunge che la ricerca e l'analisi di queste informazioni sensibili può risultare un'operazione complessa. Basta pensare che un utente può avere diversi browser installati sulla sua macchina, ognuno con le sue differenti impostazioni, influenzate anche dal sistema operativo in uso (es. locazione della cache). Ogni cache poi presenta strutture diverse per la memorizzazione dei dati, rendendo necessari approcci differenti. Questa situazione addirittura può verificarsi anche fra diverse versioni dello stesso browser. Una versione successiva può introdurre nuove metodologie di controllo della cache, facendo diventare non più validi i metodi di analisi precedentemente utilizzati.
+Inoltre la ricerca e l'analisi di queste informazioni sensibili può risultare un'operazione complessa. Basti pensare ad un utente con diversi browser sul proprio computer, ognuno con le sue differenti impostazioni, influenzate anche dal sistema operativo in uso (es. locazione della cache). Ogni cache poi presenta strutture diverse per la memorizzazione dei dati, rendendo necessari approcci differenti. Ciò può verificarsi anche fra diverse versioni dello stesso browser, con le successive che possono introdurre nuove metodologie di controllo della cache, facendo diventare non più validi i metodi di analisi precedenti.
 
 
 
