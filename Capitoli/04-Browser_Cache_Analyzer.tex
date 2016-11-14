@@ -1,32 +1,37 @@
 \chapter{Browser Cache Analyzer}
 
-\textit{Browser Cache Analyzer} è l'applicazione che è stata sviluppata per eseguire l'analisi della memoria cache dei browser presi in esame. Fornisce un'anteprima del contenuto permettendone anche l'estrazione con la contestuale creazione di un report finale in formato HTML per una più facile consultazione.
+\textit{Browser Cache Analyzer} è l'applicazione che è stata sviluppata per eseguire l'analisi della memoria cache dei browser presi in esame.
+
+Permette di ottenere un'anteprima del contenuto lasciando decidere all'utente se effettuarne una successiva estrazione, creando una copia dei dati presenti in memoria cache e fornendo un report finale in formato Html per consentire una più facile consultazione dei risultati.
 
 Progettata per sistemi Windows, presenta un'architettura divisa in \textit{moduli}. Questo la rende flessibile, permettendo di aggiungere nuove funzionalità, come ad esempio il supporto ad altri browser.
 
 \subsection{Implementazione: linguaggi e librerie utilizzate}
-Il corpo principale dell'applicazione è stato scritto con il linguaggio di programmazione \textbf{\textit{Python}} mentre la creazione e la gestione dell'interfaccia grafica è affidata al framework \textbf{\textit{Qt}}. Ci si è avvalso anche dell'utilizzo di librerie di terze parti come \textbf{\textit{psutil}} per informazioni sui processi in uso dal sistema operativo o del programma \textbf{\textit{PyInstaller}} per la creazione del file eseguibile.
+Il corpo principale dell'applicazione è stato scritto con il linguaggio di programmazione \textbf{\textit{Python}} mentre la creazione e la gestione dell'interfaccia grafica è affidata al framework \textbf{\textit{Qt}}. Ci si è avvalso anche dell'utilizzo di librerie di terze parti come \textbf{\textit{Psutil}} per informazioni sui processi in uso dal sistema operativo o del programma \textbf{\textit{PyInstaller}} per la creazione del file eseguibile.
 
+\clearpage
 \subsubsection{Python}
 \nocite{Python}
 Alla fine degli anni 80, l'olandese Guido van Rossum iniziò a sviluppare un linguaggio di programmazione che facesse della semplicità uno dei suoi maggiori punti di forza: il \textbf{\textit{Pyhton}}. 
 
-Python è un linguaggio multi-piattaforma ed orientato agli oggetti che supporta caratteristiche quali il \textit{dynamic typing}, che evita errori di tipo sui valori delle varie operazioni o la \textit{name resolution}, che determina a quale identificatore riferirsi in uno specifico contesto, permettendo così di associare lo stesso nome anche ad oggetti differenti durante l'esecuzione del programma. I blocchi di istruzione all'interno dell'applicazione vengono delimitati dall'intentazione e non da parentesi, garantendo così un'alta leggibilità del codice. Pyhton prevede che la gestione della memoria sia a carico di un \textit{garbage-collector}.
+Python è un linguaggio multi-piattaforma ed orientato agli oggetti che supporta caratteristiche quali il \textit{dynamic typing}, che evita errori di tipo sui valori delle varie operazioni, o la \textit{name resolution}, che determina a quale identificatore riferirsi in uno specifico contesto, permettendo così di associare lo stesso nome anche ad oggetti differenti durante l'esecuzione del programma. I blocchi di istruzione all'interno dell'applicazione vengono delimitati dall'intentazione e non da parentesi, garantendo così un'alta leggibilità del codice. Pyhton prevede che la gestione della memoria sia a carico di un \textit{garbage-collector}.
 
 Come tutti i linguaggi interpretati, le sue prestazioni non possono essere comparate a quelle dei linguaggi compilati, specie per applicazioni che richiedono un elevato carico computazionale, ma risultano in linea o superiori a quelle degli altri linguaggi interpretati.
 
-Anche grazie alla sua filosofia, cioè quella di un linguaggio che presenta un elevato numero di librerie standard ma al contempo di essere altamente estensibile, è possibile introdurre tutti i moduli per le funzionalità richieste. 
+Anche grazie alla sua filosofia, cioè quella di un linguaggio che presenta un elevato numero di librerie standard e al contempo di essere altamente estensibile, è possibile introdurre tutti i moduli per le funzionalità richieste. 
 \'E anche possibile scrivere ed integrare estensioni C / C++, potendo così sfruttare le elevate prestazioni di un linguaggio compilato ove richiesto, continuando a beneficiare nel contempo della versatilità del Python.  
 
 \subsubsection{Qt e PyQt} 
 \nocite{Qt}
 \nocite{PyQt}
 Lo sviluppo di \textbf{\textit{Qt}} è iniziato nel 1990 da parte di Eirik Chambe-Eng and Haavard Nord della compagnia norvegese Trolltech. Qt è un framework multi-piattaforma per lo sviluppo di applicazioni in ambiente desktop, embedded e mobile. Scritto in C++, grazie al preprocessore \textit{MOC} (Meta-Object Compiler) ne estende le funzionalità.
-Prima della compilazione, il MOC effettua un parsing del codice sorgente in Qt-extended C++ generando un codice conforme al C++. Fra le caratteristiche aggiunte, la principale è quella riguardante i \textit{segnali e slot}, utilizzati per la comunicazione fra i vari oggetti dell'applicazione. 
+Prima della compilazione, il MOC effettua un parsing del codice sorgente in Qt-extended C++ generando un codice conforme al C++. 
+
+Fra le caratteristiche aggiunte, la principale è quella riguardante i \textit{segnali e slot}, utilizzati per la comunicazione fra i vari oggetti dell'applicazione. 
 
 \begin{figure}[htpb]
 	\begin{center}
-		\includegraphics[scale=0.6]{Signal_slot_view.png}
+		\includegraphics[scale=0.5]{Signal_slot_view.png}
 	\end{center}
 	\caption[Segnali e slot]{Segnali e slot \footnotemark}
 \end{figure}
@@ -71,3 +76,29 @@ PyQt inoltre presenta anche un insieme di \textit{utilities} quali:
 
 \subsubsection{PyInstaller}
 \textbf{\textit{PyInstaller}} \footnote{\url{http://www.pyinstaller.org/}} è un programma che permette la creazione di eseguibili \textit{stand alone} a partire da sorgenti Python. Multi-piattaforma, utilizza il supporto del supporto del sistema operativo per il caricamento di librerie dinamiche, assicurando così piena compatibilità con \textit{packages} di terze parti come PyQt.
+\clearpage
+
+\subsection{Descrizione delle componenti}
+Di seguito viene fornita una visione della struttura completa dell'applicazione e ne verranno illustrati i vari moduli che la compongono.
+
+\begin{figure}[htpb]
+	\begin{center}
+		\includegraphics[scale=0.8]{Struttura_applicazione.png}
+	\end{center}
+	\caption[Struttura dell'applicazione Browser Cache Analyzer]{Struttura dell'applicazione Browser Cache Analyzer}
+\end{figure}
+
+\subsubsection{Modulo Browser}
+Il modulo \textbf{\textit{Browsers}} è il modulo contenente la logica e le funzioni che permettono di eseguire l'analisi e l'esportazione del contenuto della memoria cache. 
+Al suo interno sono contenuti altri moduli, uno per ogni browser preso in esame. 
+La scelta di creare il modulo \textit{browsers} è stata presa per poter separare la logica di funzionamento dell'applicazione da quella dei browser. In questo modo aggiungere un nuovo browser o modificare il comportamento di uno già presente, ad esempio a seguito di modifiche o nuove implementazioni della memoria cache da parte del produttore, comporta solo minime modifiche al codice dell'applicazione, volte solo all'aggiunta delle nuove funzionalità.
+
+\begin{figure}[htpb]
+	\begin{center}
+		\includegraphics[scale=0.6]{Modulo_browsers.png}
+	\end{center}
+	\caption[Browser Cache Analyzer: modulo \textbf{\textit{browsers}}]{Browser Cache Analyzer: modulo \textbf{\textit{browsers}}}
+\end{figure}
+
+%Si possono osservare i vari file che al loro interno presentano classi e funzioni che ricalcano gli oggetti presenti in memoria cache. Ad %esempio le funzioni \textit{read_index_header}  
+
