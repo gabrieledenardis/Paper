@@ -55,11 +55,9 @@ anche un web browser pienamente funzionante ed un insieme di GUI widgets.
 Un altro componente importante presente in PyQt è il \textbf{\textit{Qt Designer}}, strumento che permette la creazione di interfacce grafiche. 
 Le interfacce vengono create disponendo gli oggetti su quella che diventerà una finestra dell'applicazione, facilitando la disposizione degli stessi in layout, permettendo di settarne le proprietà e consentendo anche la creazione delle connessioni fra segnali e slot dei vari oggetti.
 
-\clearpage
-
 \begin{figure}[htpb]
 	\begin{center}
-		\includegraphics[scale=0.42]{Welcome_screen_designer.png}
+		\includegraphics[scale=0.35]{Welcome_screen_designer.png}
 	\end{center}
 	\caption[Schermata di benvenuto dell'applicazione in QtDesigner]{Schermata di benvenuto dell'applicazione in QtDesigner}
 \end{figure}
@@ -122,6 +120,8 @@ L'\textit{exporter} provvede anche ad effettuare una copia del contenuto dell'he
 
 Inoltre, per cercare di rispettare quello che riguarda il lato ``giuridico'', viene creato un hash MD5 ed un hash SHA1 dei file dei quali si è analizzato il contenuto, permettendone di verificare l'avvenuta o meno alterazione. Ad ogni file esportato viene poi allegato anche un hash MD5 ed un hash SHA1, generato in maniera random ad ogni esportazione, per poter collegare un file di report ad una univoca estrazione. 
 
+\clearpage
+
 \subsubsection{Modulo Operating System}
 Questo è il modulo che contiene funzionalità inerenti ad ogni sistema operativo sui quali si intende utilizzare l'applicazione. \'E qui che è situata la ricerca dei browser installati sul sistema e delle loro informazioni.
 
@@ -168,11 +168,95 @@ Le funzioni di utilità comune fra vari moduli sono state raccolte nel modulo \t
 Al suo interno è possibile individuare una raccolta \textit{utils}, contenente funzioni di utilità comune come la ricerca di informazioni su file e cartelle. 
 L'altra raccolta di funzioni presente, \textit{browsers\_utils}, contiene funzioni dedicate esclusivamente ai browser, in particolare la definizione dei percorsi di default per la memoria cache in base ai diversi browser ed ai diversi sistemi operativi, o la validazione di una cartella di input. Con la validazione si verifica se una cartella risulti valida per un determinato browser o meno. Si controlla la presenta dei necessari file costituenti la cache e che questi presentino particolari \textit{signature} al loro interno.
 
+\clearpage
+
 \subsubsection{Classe BrowserCacheAnalyzer}
 
 La classe \textit{BrowserCacheAnalyzer} è la classe principale dell'applicazione. \'E qui che viene gestita l'interfaccia grafica con tutte le sue funzionalità, le connessioni fra segnali e slot, le impostazioni degli oggetti grafici presenti e la definizione dei thread per l'analisi e l'esportazione. \'E derivata dalla classe \textit{QtGui.QMainWindow} e dalla classe generata convertendo, mediante il comando \textit{pyuic4}, l'interfaccia grafica creata con QtDesigner.
 
 Le schermate presenti e le impostazioni degli oggetti all'interno delle schermate sono definite all'interno di slot. Qui si trovano anche le chiamate alle funzioni all'interno dei vari moduli della'applicazione, lasciando così alla classe \textit{BrowserCacheAnalyzer} e alle sue funzioni il solo compito di gestire la visualizzazione dei dati, demandando ai vari moduli il compito di reperimento delle informazioni.
 
+\clearpage
+
+\subsection{Descrizione delle schermate}
+
+
+Di seguito una breve descrizione delle varie schermate presenti nell'applicazione.
+
+\subsubsection{Welcome screen}
+
+\begin{figure}[htpb]
+	\begin{center}
+		\includegraphics[scale=0.5]{Welcome_screen.png}
+	\end{center}
+	\caption[Browser Cache Analyzer: \textit{welcome screen}]{Browser Cache Analyzer: \textit{welcome screen}}
+\end{figure}
+
+La \textit{Welcome screen} è la schermata di benvenuto dell'applicazione. Presenta due tasti che conducono a due diverse schermate per la scelta dei browser. Una per le versioni \textit{portable} e l'altra per quelle installate nel sistema.
+
+\clearpage
+
+\subsubsection{Portable browsers screen - Installed browsers screen}
+
+Entrambe queste schermate presentano la possibilità di scegliere quale browser analizzare. Contestualmente al caricamento di queste schermate viene resa visibile anche una box contente informazioni sul sistema in uso. Nel caso della schermata per la scelta fra i browser installati viene anche richiamata la funzione \textit{finder} dal modulo \textit{operating systems} per la ricerca nel registro di sistema.
+
+\begin{figure}[htpb]
+	\begin{center}
+		\includegraphics[scale=0.32]{Portable_screen.png}
+	\end{center}
+	\caption[Browser Cache Analyzer: \textit{portable browsers screen}]{Browser Cache Analyzer: \textit{portable browsers screen}}
+\end{figure}
+
+\begin{figure}[htpb]
+	\begin{center}
+		\includegraphics[scale=0.32]{Installed_screen.png}
+	\end{center}
+	\caption[Browser Cache Analyzer: \textit{installed browsers screen}]{Browser Cache Analyzer: \textit{installed browsers screen}}
+\end{figure}
+
+\clearpage
+
+
+\subsubsection{Input folder screen}
+
+Selezionato il browser per il quale si vuole effettuare l'analisi, viene caricata la schermata che permette la scelta della cartella da analizzare. 
+
+\begin{figure}[htpb]
+	\begin{center}
+		\includegraphics[scale=0.5]{Input_screen.png}
+	\end{center}
+	\caption[Browser Cache Analyzer: \textit{input folder screen}]{Browser Cache Analyzer: \textit{input folder screen screen}}
+\end{figure}
+
+Si nota la presenza, da questa schermata, di una box che contiene le informazioni sul browser selezionato. Il path di default per la cache, presente nel modulo \textit{browsers\_utilities}, viene caricato dinamicamente. Una spunta accanto al path indica se il path di default risulta valido o meno. \'E offerta anche la possibilità di selezionare un path diverso da quello di default, sempre previa validazione. In basso è presente un anteprima con informazioni sulla cartella correntemente selezionata.
+
+\subsubsection{Analysis screen}
+Questa schermata presenta una tabella che dinamicamente viene aggiornata mostrando in tempo reale i risultati dell'analisi. Ad analisi finita oppure alla pressione del stato stop, viene abilitato sulla tabella un menù contestuale che mostra una \textit{dialog} con informazione aggiuntive. 
+
+\begin{figure}[htpb]
+	\begin{center}
+		\includegraphics[scale=0.35]{Analysis_screen.png}
+	\end{center}
+	\caption[Browser Cache Analyzer: \textit{analysis screen}]{Browser Cache Analyzer: \textit{analysis screen}}
+\end{figure}
+
+\begin{figure}[htpb]
+	\begin{center}
+		\includegraphics[scale=0.35]{Analysis_screen_preview.png}
+	\end{center}
+	\caption[Browser Cache Analyzer: \textit{analysis screen\_preview}]{Browser Cache Analyzer: \textit{analysis screen\_preview}}
+\end{figure}
+
+\clearpage
+
+\subsubsection{Export screen}
+L'\textit{export screen} è la schermata conclusiva dell'applicazione. Mostra lo stato di avanzamento dell'esportazione, rimanendo in attesa di decisione dell'utente al suo completamento. \'E possibile tornare alla schermata iniziale per eseguire una nuova analisi, visualizzare i risultati dell'esportazione o chiudere l'applicazione.  
+
+\begin{figure}[htpb]
+	\begin{center}
+		\includegraphics[scale=0.5]{Export_screen.png}
+	\end{center}
+	\caption[Browser Cache Analyzer: \textit{export screen}]{Browser Cache Analyzer: \textit{export screen}}
+\end{figure}
 
 

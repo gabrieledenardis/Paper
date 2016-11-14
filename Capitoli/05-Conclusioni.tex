@@ -1,0 +1,8 @@
+\chapter{Conclusioni}
+
+L'argomento trattato in questo lavoro verte sull'analisi del contenuto della memoria cache dei browser. 
+Lo studio delle strutture e del funzionamento delle varie memorie cache e delle loro differenze fra i diversi browser presi in esame ha portato alla creazione dell'applicazione \textit{Browser Cache Analyzer}.
+
+Lo sviluppo di questa ha coinvolto principalmente il linguaggio di programmazione Python ed il framework Qt. Python è stato utilizzato per la definizione delle funzionalità dell'applicazione e Qt, nello specifico PyQt4, per la creazione dell'interfaccia grafica. Durante il suo sviluppo si è cercato di tenere conto dei possibili scenari di utilizzo, con un occhio di riguardo anche all'estensibilità dell'applicazione. \'E stato notato che diverse versioni dello stesso browser hanno implementato, nel tempo, differenti versioni della cache. Questo implica una diversa struttura e nuove funzionalità della stessa, rendendo non più validi metodi invece adatti a versioni precedenti. Per questo motivi i browser ed i sistemi operativi supportati sono stati pensati come moduli da inserire nell'applicazione, la quale necessita di modifiche poco invasive per l'aggiunta di nuove funzionalità.
+
+Sviluppi futuri possibili riguardano il supporto ad altri browser e a loro versioni meno recenti per garantire maggiore retro-compatibilità. Sul lato dei sistemi operativi gli sviluppi interessano le modalità di reperimento delle informazioni sul sistema stesso e di come questi gestiscono le applicazioni installate per rendere efficiente la ricerca dei browser installati. 
