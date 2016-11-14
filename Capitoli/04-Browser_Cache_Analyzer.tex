@@ -21,6 +21,8 @@ Come tutti i linguaggi interpretati, le sue prestazioni non possono essere compa
 Anche grazie alla sua filosofia, cioè quella di un linguaggio che presenta un elevato numero di librerie standard e al contempo di essere altamente estensibile, è possibile introdurre tutti i moduli per le funzionalità richieste. 
 \'E anche possibile scrivere ed integrare estensioni C / C++, potendo così sfruttare le elevate prestazioni di un linguaggio compilato ove richiesto, continuando a beneficiare nel contempo della versatilità del Python.  
 
+Per la creazione dell'applicazione Browser Cache Analyzer è stata utilizzata la versione 2.7.12 (32 bit) di Python.
+
 \subsubsection{Qt e PyQt} 
 \nocite{Qt}
 \nocite{PyQt}
@@ -69,6 +71,7 @@ PyQt inoltre presenta anche un insieme di \textit{utilities} quali:
 	\item{pyrcc4: corrisponde all'utility \textit{rcc} di Qt. Incorpora risorse esterne (ad esempio icone ed immagini) descritte in un file all'interno di un modulo Python }
 \end{itemize} 
 
+Per la creazione dell'applicazione Browser Cache Analyzer è stata utilizzata la versione PyQt4-4.11.4-gpl-Py2.7-Qt4.8.7-x32 del framework PyQt.
 \clearpage
 
 \subsubsection{Psutil}
@@ -89,16 +92,87 @@ Di seguito viene fornita una visione della struttura completa dell'applicazione 
 \end{figure}
 
 \subsubsection{Modulo Browser}
-Il modulo \textbf{\textit{Browsers}} è il modulo contenente la logica e le funzioni che permettono di eseguire l'analisi e l'esportazione del contenuto della memoria cache. 
-Al suo interno sono contenuti altri moduli, uno per ogni browser preso in esame. 
-La scelta di creare il modulo \textit{browsers} è stata presa per poter separare la logica di funzionamento dell'applicazione da quella dei browser. In questo modo aggiungere un nuovo browser o modificare il comportamento di uno già presente, ad esempio a seguito di modifiche o nuove implementazioni della memoria cache da parte del produttore, comporta solo minime modifiche al codice dell'applicazione, volte solo all'aggiunta delle nuove funzionalità.
+Il modulo \textbf{\textit{Browsers}} è il modulo contenente la logica e le funzioni che permettono di eseguire l'analisi e l'esportazione del contenuto della memoria cache. Al suo interno si trovano altri moduli, uno per ogni browser preso in esame. 
+La scelta di creare questo modulo è stata presa per poter separare la logica di funzionamento dell'applicazione da quella dei browser. Così aggiungere un nuovo browser o modificare il comportamento di uno già presente, ad esempio a seguito di modifiche o nuove implementazioni della memoria cache da parte del produttore, comporta solo minime modifiche al codice dell'applicazione volte solo all'aggiunta delle nuove funzionalità.
 
 \begin{figure}[htpb]
 	\begin{center}
 		\includegraphics[scale=0.6]{Modulo_browsers.png}
 	\end{center}
-	\caption[Browser Cache Analyzer: modulo \textbf{\textit{browsers}}]{Browser Cache Analyzer: modulo \textbf{\textit{browsers}}}
+	\caption[Browser Cache Analyzer: modulo \textit{browsers}]{Browser Cache Analyzer: modulo \textit{browsers}}
 \end{figure}
 
-%Si possono osservare i vari file che al loro interno presentano classi e funzioni che ricalcano gli oggetti presenti in memoria cache. Ad %esempio le funzioni \textit{read_index_header}  
+\clearpage
+Propri di ogni modulo browser sono le classi e funzioni atte a ricalcare il funzionamento del browser cui fanno riferimento. 
+
+\begin{figure}[htpb]
+	\begin{center}
+		\includegraphics[scale=0.4]{Chrome_address.png}
+	\end{center}
+	\caption[Classe \textit{cache address} per \textit{chrome}]{Classe \textit{cache address} per \textit{chrome}}
+\end{figure}
+
+Come si può osservare da questo estratto di codice dell'applicazione, i campi presenti in una struttura cache address del browser \textit{chrome} vengono estratti seguendo lo schema riportato precedentemente in Tabella 2. Una volta ricreata la struttura di funzionamento della cache del browser si procede con l'analisi e l'eventuale successiva esportazione. A queste funzioni assolvono \textbf{\textit{analyzer}} ed \textbf{\textit{exporter}}
+presenti in ogni browser.
+
+Per quanto concerne la classe \textit{Analyzer} si procede partendo con la lettura del file \textit{index}, interpretando i record binari che costituiscono gli indirizzi cache. Acquisiti tutti gli indirizzi e su questa base, creato tutte le classi identificanti le \textit{entries} e le \textit{resource} ad esse collegate, vengono memorizzate tutte le istanze di classe appena create. Questo per evitare di effettuare una nuova scansione in caso venga deciso di esportare i risultati.
+
+A tale funzione provvede la classe \textit{Exporter}. Sulla base del contenuto delle istanze delle classi generate precedentemente durante l'analisi, si creano file Html contenenti report esplicativi. Scopo di questi report è quello di poter disporre di una più rapida e semplice consultazione.
+L'\textit{exporter} provvede anche ad effettuare una copia del contenuto dell'header Http della risorsa trovata (se presente) e una copia del contenuto della risorsa, allegandoli al file html che contiene il report di appartenenza.
+
+Inoltre, per cercare di rispettare quello che riguarda il lato ``giuridico'', viene creato un hash MD5 ed un hash SHA1 dei file dei quali si è analizzato il contenuto, permettendone di verificare l'avvenuta o meno alterazione. Ad ogni file esportato viene poi allegato anche un hash MD5 ed un hash SHA1, generato in maniera random ad ogni esportazione, per poter collegare un file di report ad una univoca estrazione. 
+
+\subsubsection{Modulo Operating System}
+Questo è il modulo che contiene funzionalità inerenti ad ogni sistema operativo sui quali si intende utilizzare l'applicazione. \'E qui che è situata la ricerca dei browser installati sul sistema e delle loro informazioni.
+
+\begin{figure}[htpb]
+	\begin{center}
+		\includegraphics[scale=1]{Modulo_operating_systems.png}
+	\end{center}
+	\caption[Browser Cache Analyzer: modulo \textit{operating\_systems}]{Browser Cache Analyzer: modulo \textit{operating\_systems}}
+\end{figure}
+
+La funzione \textit{finder} è quella che ha il compito di cercare nel registro di sistema, precisamente nella chiave \texttt{\path{HKEY\_LOCAL\_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall}} le occorrenze delle sottochiavi appartenenti ad uno dei browser supportati dall'applicazione.
+
+\begin{figure}[htpb]
+	\begin{center}
+		\includegraphics[scale=0.6]{Browsers_finder.png}
+	\end{center}
+	\caption[Estratto della funzione \textit{browsers\_finder}]{Estratto della funzione \textit{browsers\_finder}}
+\end{figure}
+
+In questo estratto dalla funzione \textit{browsers\_finder} si nota come avviene la ricerca all'interno delle chiavi nel registro di sistema. Partendo dalla chiave \textit{uninstall} si verifica la presenza, nel nome di ogni sotto-chiave, di un identificativo associato ad ogni browser. Questo identificativo, per semplicità d'uso, corrisponde al nome del browser scritto in minuscolo.
+Trovata la chiave corrispondente la si analizza alla ricerca dei valori interessati come nome completo, versione e percorso di installazione. 
+
+In questo modulo è presente anche la funzione \textit{get\_registry\_time\_info}. Per mantenere una pertinenza con l'aspetto ``giuridico'' si cerca di fornire informazioni il più possibili dettagliate sull'analisi in corso. Per questo si ricerca, sempre nel registro di sistema, chiavi che corrispondano ad orari e sincronizzazioni, utili per capire se un orario sia stato in qualche modo manipolato.
+
+\begin{figure}[htpb]
+	\begin{center}
+		\includegraphics[scale=0.6]{Registry_time.png}
+	\end{center}
+	\caption[Estratto della funzione \textit{get\_registry\_time\_info}]{Estratto della funzione \textit{get\_registry\_time\_info}}
+\end{figure}
+
+In questo estratto si evince come avviene la ricerca del valore \textit{LastKnownGoodTime} (qui su Windows 10) che indica l'ultimo valore orario affidabile conosciuto \footnote{Espresso in unità di 100 nanosecondi a partire dal 1 Gennaio 1601}. Con la stessa modalità avviene la ricerca di altre informazioni riguardanti l'orario di sistema, come ad esempio la prossima sincronizzazione prevista ed il server con cui viene effettuata (se disponibile).
+
+
+\subsubsection{Modulo Utilities}
+\begin{figure}[htpb]
+	\begin{center}
+		\includegraphics[scale=1]{Modulo_utilities.png}
+	\end{center}
+	\caption[Browser Cache Analyzer: modulo \textit{utilities}]{Browser Cache Analyzer: modulo \textit{utilities}}
+\end{figure}
+
+Le funzioni di utilità comune fra vari moduli sono state raccolte nel modulo \textit{utilities} per conferire una migliore organizzazione del codice dell'applicazione. 
+Al suo interno è possibile individuare una raccolta \textit{utils}, contenente funzioni di utilità comune come la ricerca di informazioni su file e cartelle. 
+L'altra raccolta di funzioni presente, \textit{browsers\_utils}, contiene funzioni dedicate esclusivamente ai browser, in particolare la definizione dei percorsi di default per la memoria cache in base ai diversi browser ed ai diversi sistemi operativi, o la validazione di una cartella di input. Con la validazione si verifica se una cartella risulti valida per un determinato browser o meno. Si controlla la presenta dei necessari file costituenti la cache e che questi presentino particolari \textit{signature} al loro interno.
+
+\subsubsection{Classe BrowserCacheAnalyzer}
+
+La classe \textit{BrowserCacheAnalyzer} è la classe principale dell'applicazione. \'E qui che viene gestita l'interfaccia grafica con tutte le sue funzionalità, le connessioni fra segnali e slot, le impostazioni degli oggetti grafici presenti e la definizione dei thread per l'analisi e l'esportazione. \'E derivata dalla classe \textit{QtGui.QMainWindow} e dalla classe generata convertendo, mediante il comando \textit{pyuic4}, l'interfaccia grafica creata con QtDesigner.
+
+Le schermate presenti e le impostazioni degli oggetti all'interno delle schermate sono definite all'interno di slot. Qui si trovano anche le chiamate alle funzioni all'interno dei vari moduli della'applicazione, lasciando così alla classe \textit{BrowserCacheAnalyzer} e alle sue funzioni il solo compito di gestire la visualizzazione dei dati, demandando ai vari moduli il compito di reperimento delle informazioni.
+
+
 
